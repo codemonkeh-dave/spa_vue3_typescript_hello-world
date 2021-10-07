@@ -983,6 +983,11 @@ pre {
   }
 }
 
+#app {
+  height: 100%;
+  width: 100%;
+}
+
 @media only screen and (max-width: 21rem) {
   .nav-bar__tab {
     font-size: 0.8rem;

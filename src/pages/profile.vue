@@ -7,10 +7,10 @@
       </p>
       <div class="profile-grid">
         <div class="profile__header">
-          <img :src="user.picture" alt="Profile" class="profile__avatar" />
+          <img :src="picture" alt="Profile" class="profile__avatar" />
           <div class="profile__headline">
-            <h2 class="profile__title">{{ user.name }}</h2>
-            <span class="profile__description">{{ user.email }}</span>
+            <h2 class="profile__title">{{ name }}</h2>
+            <span class="profile__description">{{ email }}</span>
           </div>
         </div>
         <div class="profile__details">
@@ -22,32 +22,107 @@
 </template>
 
 <script lang="ts">
+import { useAuth0 } from "@/auth/auth0-plugin";
 import CodeSnippet from "@/components/code-snippet.vue";
-import { User } from "@/models/user";
-import { computed, ComputedRef, Ref, ref } from "vue";
+import { computed, ComputedRef } from "vue";
 
 export default {
   name: "Profile",
   components: { CodeSnippet },
   setup(): {
-    user: Ref<User>;
-    code: ComputedRef<string>;
+    code: ComputedRef<string | null>;
+    name: ComputedRef<string | null>;
+    email: ComputedRef<string | null>;
+    picture: ComputedRef<string | null>;
   } {
-    const user = ref<User>({
-      nickname: "Alex",
-      name: "Alex Cero",
-      picture:
-        "https://images.ctfassets.net/23aumh6u8s0i/XWKpjS2uxXPDPGMl99FoV/d82a062cd4514a985fb47f8d4b5d3660/auth0-user.png",
-      updated_at: "2021-05-04T21:33:09.415Z",
-      email: "alex@example.com",
-      email_verified: false,
-      sub: "auth0|12345678901234567890",
+    const auth0 = useAuth0();
+
+    const code = computed((): string =>
+      JSON.stringify(auth0?.user.value, null, 2)
+    );
+
+    const name = computed((): string | null => {
+      if (!auth0) {
+        return null;
+      }
+
+      const user = auth0.user;
+
+      if (!user) {
+        return null;
+      }
+
+      const value = user.value;
+
+      if (!value) {
+        return null;
+      }
+
+      const name = value.name;
+
+      if (!name) {
+        return null;
+      }
+
+      return name;
     });
 
-    const code = computed((): string => JSON.stringify(user.value, null, 2));
+    const email = computed((): string | null => {
+      if (!auth0) {
+        return null;
+      }
+
+      const user = auth0.user;
+
+      if (!user) {
+        return null;
+      }
+
+      const value = user.value;
+
+      if (!value) {
+        return null;
+      }
+
+      const email = value.email;
+
+      if (!email) {
+        return null;
+      }
+
+      return email;
+    });
+
+    const picture = computed((): string | null => {
+      if (!auth0) {
+        return null;
+      }
+
+      const user = auth0.user;
+
+      if (!user) {
+        return null;
+      }
+
+      const value = user.value;
+
+      if (!value) {
+        return null;
+      }
+
+      const picture = value.picture;
+
+      if (!picture) {
+        return null;
+      }
+
+      return picture;
+    });
 
     return {
-      user,
+      name,
+      email,
+      picture,
       code,
     };
   },
