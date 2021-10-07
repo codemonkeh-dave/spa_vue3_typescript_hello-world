@@ -42,81 +42,15 @@ export default {
     );
 
     const name = computed((): string | null => {
-      if (!auth0) {
-        return null;
-      }
-
-      const user = auth0.user;
-
-      if (!user) {
-        return null;
-      }
-
-      const value = user.value;
-
-      if (!value) {
-        return null;
-      }
-
-      const name = value.name;
-
-      if (!name) {
-        return null;
-      }
-
-      return name;
+      return auth0?.user?.value?.name ?? null;
     });
 
     const email = computed((): string | null => {
-      if (!auth0) {
-        return null;
-      }
-
-      const user = auth0.user;
-
-      if (!user) {
-        return null;
-      }
-
-      const value = user.value;
-
-      if (!value) {
-        return null;
-      }
-
-      const email = value.email;
-
-      if (!email) {
-        return null;
-      }
-
-      return email;
+      return auth0?.user?.value?.email ?? null;
     });
 
     const picture = computed((): string | null => {
-      if (!auth0) {
-        return null;
-      }
-
-      const user = auth0.user;
-
-      if (!user) {
-        return null;
-      }
-
-      const value = user.value;
-
-      if (!value) {
-        return null;
-      }
-
-      const picture = value.picture;
-
-      if (!picture) {
-        return null;
-      }
-
-      return picture;
+      return auth0?.user?.value?.picture ?? null;
     });
 
     return {
