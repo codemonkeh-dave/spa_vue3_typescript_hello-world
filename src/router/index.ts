@@ -1,5 +1,7 @@
-import { authenticationGuard } from "@/auth/authentication-guard";
+import ExternalApi from "@/pages/external-api.vue";
 import Home from "@/pages/home.vue";
+import Profile from "@/pages/profile.vue";
+import { authenticationGuard } from "@/services/auth0";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
@@ -11,17 +13,13 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/profile",
     name: "profile",
-    component: () =>
-      import(/* webpackChunkName: "profile" */ "../pages/profile.vue"),
+    component: Profile,
     beforeEnter: authenticationGuard,
   },
   {
     path: "/external-api",
     name: "external-api",
-    component: () =>
-      import(
-        /* webpackChunkName: "external-api" */ "../pages/external-api.vue"
-      ),
+    component: ExternalApi,
     beforeEnter: authenticationGuard,
   },
 ];

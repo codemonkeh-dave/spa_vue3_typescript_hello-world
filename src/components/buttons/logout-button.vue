@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { useAuth0 } from "@/auth/auth0-plugin";
+import { useAuth0 } from "@/services/auth0";
 
 export default {
   name: "LogoutButton",
@@ -17,7 +17,9 @@ export default {
         return;
       }
 
-      auth0.logout();
+      auth0.logout({
+        returnTo: window.location.origin,
+      });
     };
 
     return {

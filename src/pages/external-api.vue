@@ -49,10 +49,10 @@
 </template>
 
 <script lang="ts">
-import { useAuth0 } from "@/auth/auth0-plugin";
 import { ApiConfig } from "@/models/api-config";
 import { ApiResponse } from "@/models/api-response";
 import { Messages } from "@/models/messages";
+import { useAuth0 } from "@/services/auth0";
 import { ref, Ref } from "vue";
 
 export default {

@@ -22,8 +22,8 @@
 </template>
 
 <script lang="ts">
-import { useAuth0 } from "@/auth/auth0-plugin";
 import CodeSnippet from "@/components/code-snippet.vue";
+import { useAuth0 } from "@/services/auth0";
 import { computed, ComputedRef } from "vue";
 
 export default {

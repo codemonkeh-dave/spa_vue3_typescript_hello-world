@@ -13,17 +13,26 @@
 </template>
 
 <script lang="ts">
-import { useAuth0 } from "@/auth/auth0-plugin";
 import Footer from "@/components/footer.vue";
 import Loader from "@/components/loader.vue";
 import NavBar from "@/components/nav-bar.vue";
-import { Auth0Plugin } from "@/models/auth0-plugin";
+import { Auth0Provider } from "@/models/auth0-provider";
+import router from "@/router";
+import { useAuth0 } from "@/services/auth0";
 import { onMounted } from "vue";
+
+const onRedirectCallback = (appState: { targetUrl: string }): void => {
+  router.push(
+    appState && appState.targetUrl
+      ? appState.targetUrl
+      : window.location.pathname
+  );
+};
 
 export default {
   name: "App",
   components: { Footer, NavBar, Loader },
-  setup(): { auth0: Auth0Plugin | null } {
+  setup(): { auth0: Auth0Provider | null } {
     const auth0 = useAuth0();
 
     onMounted(async () => {
@@ -31,8 +40,7 @@ export default {
         return;
       }
 
-      await auth0.createClient();
-      await auth0.handleCallback();
+      await auth0.initializeAuth0({ onRedirectCallback });
     });
 
     return {
